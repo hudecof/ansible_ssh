@@ -1,0 +1,46 @@
+# {{ ansible_managed }}
+
+{% macro print_array(item_name, item_values=[]) -%}
+{% for value in item_values -%}
+{{ item_name }} {{ value }}
+{%- endfor %}
+{%- endmacro %}
+
+AddressFamily {{ sshd_config_address_family }} 
+{{ print_array('Port', sshd_config_port) }}
+{{ print_array('ListenAddress', sshd_config_listen_address) }}
+Protocol {{ sshd_config_protocol }}
+
+{{ print_array('AllowUsers', sshd_config_allow_users) }}
+{{ print_array('AllowGroups', sshd_config_allow_groups) }}
+{{ print_array('DenyUsers', sshd_config_deny_users) }}
+{{ print_array('DenyGroups', sshd_config_deny_groups) }}
+{{ print_array('AcceptEnv', sshd_config_accept_env) }}
+
+AllowAgentForwarding yes
+AllowTcpForwarding yes
+X11Forwarding no
+PrintLastLog yes
+PrintMotd no
+
+UsePAM yes
+UseDNS no
+StrictModes yes
+
+PubkeyAuthentication {{ sshd_config_password_authentification }}
+RhostsRSAAuthentication no
+RSAAuthentication no
+HostbasedAuthentication no
+ChallengeResponseAuthentication no
+PasswordAuthentication {{ sshd_config_password_authentification }}
+GSSAPIAuthentication no
+KerberosAuthentication no
+IgnoreRhosts yes
+PermitBlacklistedKeys no
+PermitEmptyPasswords no
+
+ClientAliveInterval 600
+ClientAliveCountMax 3
+
+PermitUserEnvironment no
+PermitRootLogin {{ sshd_config_permit_root_login }}
