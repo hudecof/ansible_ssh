@@ -22,7 +22,7 @@ sshd_config_deny_groups: []
 sshd_config_password_authentification: 'yes'
 sshd_config_pubkey_authentification: 'yes'
 
-sshd_config_permit_root_login: without-password
+sshd_config_permit_root_login: 'without-password'
 
 sshd_config_accept_env:
   - "LANG LC_*"

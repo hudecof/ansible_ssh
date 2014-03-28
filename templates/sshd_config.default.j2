@@ -27,7 +27,7 @@ UsePAM yes
 UseDNS no
 StrictModes yes
 
-PubkeyAuthentication {{ sshd_config_password_authentification }}
+PubkeyAuthentication {{ sshd_config_pubkey_authentification }}
 RhostsRSAAuthentication no
 RSAAuthentication no
 HostbasedAuthentication no
@@ -36,7 +36,6 @@ PasswordAuthentication {{ sshd_config_password_authentification }}
 GSSAPIAuthentication no
 KerberosAuthentication no
 IgnoreRhosts yes
-PermitBlacklistedKeys no
 PermitEmptyPasswords no
 
 ClientAliveInterval 600
