@@ -4,5 +4,5 @@
   tags:
     - sshd
     - setup
-  with_items: "{{ sshd_packages }}"
+  with_items: sshd_packages
 
