@@ -7,7 +7,7 @@ sshd_service_enabled: yes
 sshd_service_state: started
 
 # sshd_config file variables
-# values yes/no keeep in quotes otherwise will be changes to True/Fasle
+# values yes/no keeep in quotes otherwise will be changes to True/False
 sshd_config_address_family: any
 sshd_config_port: 
  - 22
