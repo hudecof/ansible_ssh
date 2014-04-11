@@ -1,5 +1,5 @@
 ---
-- name: ensure ntp started/stopped
+- name: ensure ssh started/stopped
   service: name={{ sshd_service }} state={{ sshd_service_state }} enabled={{ sshd_service_enabled }}
   tags:
    - sshd
