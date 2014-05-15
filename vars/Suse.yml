@@ -1,0 +1,7 @@
+---
+sshd_packages:
+  - openssh
+
+sshd_service: sshd
+
+sshd_file_config: /etc/ssh/sshd_config
