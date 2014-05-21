@@ -3,7 +3,7 @@
 {% macro print_array(item_name, item_values=[]) -%}
 {% for value in item_values -%}
 {{ item_name }} {{ value }}
-{%- endfor %}
+{% endfor %}
 {%- endmacro %}
 
 AddressFamily {{ sshd_config_address_family }} 
