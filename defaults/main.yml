@@ -2,14 +2,13 @@
 # defaults file for sshd
 
 # playbook variables
-sshd_pkg_state: present
 sshd_service_enabled: yes
 sshd_service_state: started
 
 # sshd_config file variables
 # values yes/no keeep in quotes otherwise will be changes to True/False
 sshd_config_address_family: any
-sshd_config_port: 
+sshd_config_port:
  - 22
 sshd_config_listen_address: []
 sshd_config_protocol: 2
@@ -25,4 +24,6 @@ sshd_config_pubkey_authentification: 'yes'
 sshd_config_permit_root_login: 'without-password'
 
 sshd_config_accept_env:
-  - "LANG LC_*"
+- "LANG LC_*"
+
+sshd_test: False

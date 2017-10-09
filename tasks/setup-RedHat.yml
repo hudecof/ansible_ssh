@@ -1,7 +1,8 @@
 ---
 - name: "check packages (redhat)"
-  action: yum pkg={{ item }} state={{ sshd_pkg_state }}
-  tags:
-    - sshd
-    - setup
-  with_items: '{{ sshd_packages }}'
+  yum:
+    pkg: "{{ package.name }}"
+    state: "{{ package.state }}"
+  with_items: "{{ sshd_packages }}"
+  loop_control:
+    loop_var: package

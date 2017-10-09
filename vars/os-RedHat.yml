@@ -1,6 +1,6 @@
 ---
 sshd_packages:
-  - openssh-server
+  - {'name':'openssh-server', 'state':'present'}
 
 sshd_service: sshd
 

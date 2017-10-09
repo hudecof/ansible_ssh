@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 
 {% macro print_array(item_name, item_values=[]) -%}
 {% for value in item_values -%}
