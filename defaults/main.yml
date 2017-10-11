@@ -7,14 +7,4 @@ sshd_service_state: started
 
 sshd_test: False
 
-sshd_config_match:
-  - match:
-      User: ['ddddd']
-      Group: ['wwww']
-      Host: ['xxx']
-      LocalAddress: ['127.0.0.1']
-      LocalPort: [22]
-      Address: ['127.0.0.1']
-    value:
-      AllowAgentForwarding: 'yes'
-      AuthorizedPrincipalsFile: ['dddd', 'ddd' ]
+sshd_config_match: []
