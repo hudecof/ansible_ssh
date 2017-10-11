@@ -7,9 +7,8 @@
     owner: root
     group: root
     mode: 0640
+    validate: "/usr/sbin/sshd -T -f %s"
   with_first_found:
-    - "sshd_config.{{ inventory_hostname }}.j2"
-    - "sshd_config.{{ ansible_os_family }}.j2"
     - "sshd_config.default.j2"
   notify:
     - restart sshd

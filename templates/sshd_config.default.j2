@@ -1,45 +1,44 @@
 {{ ansible_managed | comment }}
 
-{% macro print_array(item_name, item_values=[]) -%}
-{% for value in item_values -%}
-{{ item_name }} {{ value }}
+{% macro print_list(item_name, item_values=None, ident=0, comment=False) -%}
+{% if item_values is not none -%}
+{% for value in item_values|default([], true) -%}
+{{"\t" * ident}}{{ item_name }} {{ value }}
 {% endfor %}
+{%- elif comment %}
+{{"\t" * ident}}#{{ item_name }}
+{%- endif %}
 {%- endmacro %}
 
-AddressFamily {{ sshd_config_address_family }} 
-{{ print_array('Port', sshd_config_port) }}
-{{ print_array('ListenAddress', sshd_config_listen_address) }}
-Protocol {{ sshd_config_protocol }}
+{% macro print_scalar(item_name, item_value=None, ident=0, comment=False) -%}
+{% if item_value is not none %}
+{{"\t" * ident}}{{ item_name }} {{ item_value }}
+{%- elif comment %}
+{{"\t" * ident}}#{{ item_name }}
+{%- endif %}
+{%- endmacro %}
 
-{{ print_array('AllowUsers', sshd_config_allow_users) }}
-{{ print_array('AllowGroups', sshd_config_allow_groups) }}
-{{ print_array('DenyUsers', sshd_config_deny_users) }}
-{{ print_array('DenyGroups', sshd_config_deny_groups) }}
-{{ print_array('AcceptEnv', sshd_config_accept_env) }}
 
-AllowAgentForwarding yes
-AllowTcpForwarding yes
-X11Forwarding no
-PrintLastLog yes
-PrintMotd no
+{% for item in sshd_config_directives %}
+{% set inv_key = "sshd_config_"+item.name %}
+{% set inv_key_os = "sshd_config_os_"+item.name %}
+{% set inv_value = hostvars[inventory_hostname][inv_key]|default(hostvars[inventory_hostname][inv_key_os])|default(item.default) %}
+{% if item.type == 'l' %}
+{{ print_list(item.name, inv_value,0, True) }}
+{% elif item.type == 's' %}
+{{ print_scalar(item.name, inv_value,0, True) }}
+{% endif %}
+{% endfor %}
 
-UsePAM yes
-UseDNS no
-StrictModes yes
+{% for item in sshd_config_match %}
+Match {% for k,v in item.match.iteritems() %}{{ k }} {{ v|join(',') }} {% endfor %}
 
-PubkeyAuthentication {{ sshd_config_pubkey_authentification }}
-RhostsRSAAuthentication no
-RSAAuthentication no
-HostbasedAuthentication no
-ChallengeResponseAuthentication no
-PasswordAuthentication {{ sshd_config_password_authentification }}
-GSSAPIAuthentication no
-KerberosAuthentication no
-IgnoreRhosts yes
-PermitEmptyPasswords no
-
-ClientAliveInterval 600
-ClientAliveCountMax 3
-
-PermitUserEnvironment no
-PermitRootLogin {{ sshd_config_permit_root_login }}
+{% for mk in sshd_config_match_directives %}
+{% set mk_value = item.value[mk.name]|default(none) %}
+{% if mk_value is not none and mk.type == 'l' %}
+{{ print_list(mk.name, mk_value, 1, True) }}
+{% elif mi_value is not none and mk.type == 's' %}
+{{ print_scalar(mk.name, mk_value,1, True) }}
+{% endif %}
+{% endfor %}
+{% endfor %}

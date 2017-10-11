@@ -5,3 +5,6 @@ sshd_packages:
 sshd_service: sshd
 
 sshd_file_config: /etc/ssh/sshd_config
+sshd_binary: /usr/sbin/sshd
+
+sshd_config_os_Subsystem: "sftp /usr/libexec/openssh/sftp-server"

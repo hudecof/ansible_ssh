@@ -1,2 +1,121 @@
 ---
 # vars file for ssh
+
+sshd_config_directives:
+  - { 'name': 'AddressFamily', 'type': 's', 'default': 'any' }
+  - { 'name': 'Port', 'type': 'l', 'default': [22] }
+  - { 'name': 'ListenAddress', 'type': 'l', 'default': ['0.0.0.0', '::'] }
+  - { 'name': 'AcceptEnv', 'type': 'l', 'default': ['LANG', 'LC_*'] }
+  - { 'name': 'AllowAgentForwarding', 'type': 's', 'default': 'no' }
+  - { 'name': 'AllowGroups', 'type': 'l', 'default': null }
+  - { 'name': 'AllowStreamLocalForwarding', 'type': 's', 'default': null }
+  - { 'name': 'AllowTcpForwarding', 'type': 's', 'default': 'no' }
+  - { 'name': 'AllowUsers', 'type': 'l', 'default': null }
+  - { 'name': 'AuthenticationMethods', 'type': 's', 'default': null }
+  - { 'name': 'AuthorizedKeysCommand', 'type': 's', 'default': null }
+  - { 'name': 'AuthorizedKeysCommandUser', 'type': 's', 'default': null }
+  - { 'name': 'AuthorizedKeysFile', 'type': 'l', 'default': ['.ssh/authorized_keys'] }
+  - { 'name': 'AuthorizedPrincipalsCommand', 'type': 's', 'default': null }
+  - { 'name': 'AuthorizedPrincipalsCommandUser', 'type': 's', 'default': null }
+  - { 'name': 'AuthorizedPrincipalsFile', 'type': 'l', 'default': null }
+  - { 'name': 'Banner', 'type': 's', 'default': null }
+  - { 'name': 'ChallengeResponseAuthentication', 'type': 's', 'default': 'no' }
+  - { 'name': 'ChrootDirectory', 'type': 's', 'default': null }
+  - { 'name': 'Ciphers', 'type': 'l', 'default': null }
+  - { 'name': 'ClientAliveCountMax', 'type': 's', 'default': null }
+  - { 'name': 'ClientAliveInterval', 'type': 's', 'default': null }
+  - { 'name': 'Compression', 'type': 's', 'default': null }
+  - { 'name': 'DebianBanner', 'type': 's', 'default': null }
+  - { 'name': 'DenyGroups', 'type': 'l', 'default': null }
+  - { 'name': 'DenyUsers', 'type': 'l', 'default': null }
+  - { 'name': 'DisableForwarding', 'type': 's', 'default': null }
+  - { 'name': 'FingerprintHash', 'type': 's', 'default': null }
+  - { 'name': 'ForceCommand', 'type': 's', 'default': null }
+  - { 'name': 'GatewayPorts', 'type': 's', 'default': null }
+  - { 'name': 'GSSAPIAuthentication', 'type': 's', 'default': 'no' }
+  - { 'name': 'GSSAPIKeyExchange', 'type': 's', 'default': null }
+  - { 'name': 'GSSAPICleanupCredentials', 'type': 's', 'default': null }
+  - { 'name': 'GSSAPIStrictAcceptorCheck', 'type': 's', 'default': null }
+  - { 'name': 'GSSAPIStoreCredentialsOnRekey', 'type': 's', 'default': null }
+  - { 'name': 'HostbasedAcceptedKeyTypes', 'type': 'l', 'default': null }
+  - { 'name': 'HostbasedAuthentication', 'type': 's', 'default': null }
+  - { 'name': 'HostbasedUsesNameFromPacketOnly', 'type': 's', 'default': null }
+  - { 'name': 'HostCertificate', 'type': 's', 'default': null }
+  - { 'name': 'HostKey', 'type': 'l', 'default': null }
+  - { 'name': 'HostKeyAgent', 'type': 's', 'default': null }
+  - { 'name': 'HostKeyAlgorithms', 'type': 'l', 'default': null }
+  - { 'name': 'IgnoreRhosts', 'type': 's', 'default': null }
+  - { 'name': 'IgnoreUserKnownHosts', 'type': 's', 'default': null }
+  - { 'name': 'IPQoS', 'type': 's', 'default': null }
+  - { 'name': 'KbdInteractiveAuthentication', 'type': 's', 'default': null }
+  - { 'name': 'KerberosAuthentication', 'type': 's', 'default': 'no' }
+  - { 'name': 'KerberosGetAFSToken', 'type': 's', 'default': null }
+  - { 'name': 'KerberosOrLocalPasswd', 'type': 's', 'default': null }
+  - { 'name': 'KerberosTicketCleanup', 'type': 's', 'default': null }
+  - { 'name': 'KexAlgorithms', 'type': 'l', 'default': null }
+  - { 'name': 'LoginGraceTime', 'type': 's', 'default': null }
+  - { 'name': 'LogLevel', 'type': 's', 'default': null }
+  - { 'name': 'MACs', 'type': 'l', 'default': null }
+  - { 'name': 'MaxAuthTries', 'type': 's', 'default': null }
+  - { 'name': 'MaxSessions', 'type': 's', 'default': null }
+  - { 'name': 'MaxStartups', 'type': 's', 'default': null }
+  - { 'name': 'PasswordAuthentication', 'type': 's', 'default': 'yes' }
+  - { 'name': 'PermitEmptyPasswords', 'type': 's', 'default': 'no' }
+  - { 'name': 'PermitOpen', 'type': 'l', 'default': null }
+  - { 'name': 'PermitRootLogin', 'type': 's', 'default': null }
+  - { 'name': 'PermitTTY', 'type': 's', 'default': null }
+  - { 'name': 'PermitTunnel', 'type': 's', 'default': null }
+  - { 'name': 'PermitUserEnvironment', 'type': 's', 'default': 'no' }
+  - { 'name': 'PermitUserRC', 'type': 's', 'default': null }
+  - { 'name': 'PidFile', 'type': 's', 'default': null }
+  - { 'name': 'PrintLastLog', 'type': 's', 'default': null }
+  - { 'name': 'PrintMotd', 'type': 's', 'default': null }
+  - { 'name': 'PubkeyAcceptedKeyTypes', 'type': 'l', 'default': null }
+  - { 'name': 'PubkeyAuthentication', 'type': 's', 'default': 'yes' }
+  - { 'name': 'RekeyLimit', 'type': 's', 'default': null }
+  - { 'name': 'RevokedKeys', 'type': 's', 'default': null }
+  - { 'name': 'RhostsRSAAuthentication', 'type': 's', 'default': null }
+  - { 'name': 'RSAAuthentication', 'type': 's', 'default': null }
+  - { 'name': 'ServerKeyBits', 'type': 's', 'default': null }
+  - { 'name': 'StreamLocalBindMask', 'type': 's', 'default': null }
+  - { 'name': 'StreamLocalBindUnlink', 'type': 's', 'default': null }
+  - { 'name': 'StrictModes', 'type': 's', 'default': 'yes' }
+  - { 'name': 'Subsystem', 'type': 's', 'default': null }
+  - { 'name': 'SyslogFacility', 'type': 's', 'default': null }
+  - { 'name': 'TCPKeepAlive', 'type': 's', 'default': null }
+  - { 'name': 'TrustedUserCAKeys', 'type': 's', 'default': null }
+  - { 'name': 'UseDNS', 'type': 's', 'default': 'no' }
+  - { 'name': 'UsePAM', 'type': 's', 'default': 'no' }
+  - { 'name': 'VersionAddendum', 'type': 's', 'default': null }
+  - { 'name': 'X11DisplayOffset', 'type': 's', 'default': null }
+  - { 'name': 'X11Forwarding', 'type': 's', 'default': 'no' }
+  - { 'name': 'X11UseLocalhost', 'type': 's', 'default': null }
+  - { 'name': 'XAuthLocation', 'type': 's', 'default': null }
+
+sshd_config_match_directives:
+  - { 'name': 'AllowAgentForwarding', 'type': 's' }
+  - { 'name': 'AllowTcpForwarding', 'type': 's' }
+  - { 'name': 'AuthorizedKeysFile', 'type': 'l' }
+  - { 'name': 'AuthorizedPrincipalsFile', 'type': 'l' }
+  - { 'name': 'Banner', 'type': 's' }
+  - { 'name': 'ChrootDirectory', 'type': 's' }
+  - { 'name': 'ForceCommand', 'type': 's' }
+  - { 'name': 'GatewayPorts', 'type': 's' }
+  - { 'name': 'GSSAPIAuthentication', 'type': 's' }
+  - { 'name': 'HostbasedAuthentication', 'type': 's' }
+  - { 'name': 'HostbasedUsesNameFromPacketOnly', 'type': 's' }
+  - { 'name': 'KbdInteractiveAuthentication', 'type': 's' }
+  - { 'name': 'KerberosAuthentication', 'type': 's' }
+  - { 'name': 'MaxAuthTries', 'type': 's' }
+  - { 'name': 'MaxSessions', 'type': 's' }
+  - { 'name': 'PasswordAuthentication', 'type': 's' }
+  - { 'name': 'PermitEmptyPasswords', 'type': 's' }
+  - { 'name': 'PermitOpen', 'type': 'l' }
+  - { 'name': 'PermitRootLogin', 'type': 's' }
+  - { 'name': 'PermitTunnel', 'type': 's' }
+  - { 'name': 'PubkeyAuthentication', 'type': 's' }
+  - { 'name': 'X11DisplayOffset', 'type': 's' }
+  - { 'name': 'X11Forwarding', 'type': 's' }
+  - { 'name': 'X11UseLocalhost', 'type': 's' }
+
+
