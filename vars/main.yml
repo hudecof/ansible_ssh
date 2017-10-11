@@ -85,7 +85,7 @@ sshd_config_directives:
   - {'name': 'TCPKeepAlive', 'type': 's', 'default': null}
   - {'name': 'TrustedUserCAKeys', 'type': 's', 'default': null}
   - {'name': 'UseDNS', 'type': 's', 'default': 'no'}
-  - {'name': 'UsePAM', 'type': 's', 'default': 'no'}
+  - {'name': 'UsePAM', 'type': 's', 'default': 'yes'}
   - {'name': 'VersionAddendum', 'type': 's', 'default': null}
   - {'name': 'X11DisplayOffset', 'type': 's', 'default': null}
   - {'name': 'X11Forwarding', 'type': 's', 'default': 'no'}

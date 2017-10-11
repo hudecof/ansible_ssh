@@ -1,14 +1,25 @@
 ---
 - name: "setup sshd_config.conf"
   template:
-    src: "{{ item }}"
+    src: sshd_config.j2
     dest: "{{ sshd_file_config }}"
     backup: yes
     owner: root
     group: root
     mode: 0640
-    validate: "/usr/sbin/sshd -T -f %s"
-  with_first_found:
-    - "sshd_config.default.j2"
+    validate: "{{ sshd_binary }} -t -f %s"
+  when: not sshd_test
+  notify:
+    - restart sshd
+
+- name: "setup sshd_config.conf"
+  template:
+    src: sshd_config.j2
+    dest: "{{ sshd_file_config }}"
+    backup: yes
+    owner: root
+    group: root
+    mode: 0640
+  when: sshd_test
   notify:
     - restart sshd
