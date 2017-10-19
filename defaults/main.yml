@@ -8,3 +8,9 @@ sshd_service_state: started
 sshd_test: False
 
 sshd_config_match: []
+
+# os based configuration
+sshd_packages: "{{ __sshd_packages }}"
+sshd_service: "{{ __sshd_service }}"
+sshd_file_config: "{{ __sshd_file_config }}"
+sshd_binary: "{{ __sshd_binary }}"
