@@ -7,5 +7,6 @@ __sshd_service: ssh
 __sshd_file_config: /etc/ssh/sshd_config
 __sshd_binary: /usr/sbin/sshd
 
-sshd_config_os_DebianBanner: 'yes'
-sshd_config_os_Subsystem: "sftp /usr/lib/openssh/sftp-server"
+
+__sshd_config_DebianBanner: 'no'
+__sshd_config_Subsystem: "sftp /usr/lib/openssh/sftp-server"

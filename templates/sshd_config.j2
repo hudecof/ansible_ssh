@@ -6,7 +6,7 @@
 {{"\t" * ident}}{{ item_name }} {{ value }}
 {% endfor %}
 {%- elif comment %}
-{{"\t" * ident}}#{{ item_name }}
+{{"\t" * ident}}# {{ item_name }}
 {%- endif %}
 {%- endmacro %}
 
@@ -14,14 +14,13 @@
 {% if item_value is not none %}
 {{"\t" * ident}}{{ item_name }} {{ item_value }}
 {%- elif comment %}
-{{"\t" * ident}}#{{ item_name }}
+{{"\t" * ident}}# {{ item_name }}
 {%- endif %}
 {%- endmacro %}
 
-
 {% for item in sshd_config_directives %}
 {% set inv_key = "sshd_config_"+item.name %}
-{% set inv_key_os = "sshd_config_os_"+item.name %}
+{% set inv_key_os = "__sshd_config_"+item.name %}
 {% set inv_value = hostvars[inventory_hostname][inv_key]|default(hostvars[inventory_hostname][inv_key_os])|default(item.default) %}
 {% if item.type == 'l' %}
 {{ print_list(item.name, inv_value,0, True) }}

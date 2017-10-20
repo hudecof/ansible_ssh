@@ -7,4 +7,4 @@ __sshd_service: sshd
 __sshd_file_config: /etc/ssh/sshd_config
 __sshd_binary: /usr/sbin/sshd
 
-sshd_config_os_Subsystem: "sftp /usr/libexec/openssh/sftp-server"
+__sshd_config_Subsystem: "sftp /usr/libexec/openssh/sftp-server"
