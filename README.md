@@ -20,7 +20,7 @@ If the type is
 - **s** / **scalar**: use value enclosed in double quote, since values like **yes** and **no** have special meaning.
 - **l** / **list**: use YAML list syntax, like `['val1', 'val2']`
 
-There are some OS specific variables, which are defined in variables `sshd_config_os_<name>` in `vars/os-<distribution>`.
+There are some OS specific variables, which are defined in variables `__sshd_config_<name>` in `vars/os-<distribution>` but still could be overwriten.
 
 #### Match directive
 
@@ -53,15 +53,3 @@ Author Information
 ------------------
 
 Peter Hudec
-
-sshd_config_match: []
-  - match:
-      User: ['ddddd']
-      Group: ['wwww']
-      Host: ['xxx']
-      LocalAddress: ['127.0.0.1']
-      LocalPort: [22]
-      Address: ['127.0.0.1']
-    value:
-      AllowAgentForwarding: 'yes'
-      AuthorizedPrincipalsFile: ['dddd', 'ddd']
