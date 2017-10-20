@@ -3,7 +3,7 @@
   template:
     src: sshd_config.j2
     dest: "{{ sshd_file_config }}"
-    backup: yes
+    backup: "{{ sshd_backup }}"
     owner: root
     group: root
     mode: 0640

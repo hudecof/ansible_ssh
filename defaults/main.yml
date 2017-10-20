@@ -4,7 +4,7 @@
 # playbook variables
 sshd_service_enabled: yes
 sshd_service_state: started
-
+sshd_backup: True
 sshd_test: False
 
 sshd_config_match: []
