@@ -21,7 +21,7 @@
 {% for item in sshd_config_directives %}
 {% set inv_key = "sshd_config_"+item.name %}
 {% set inv_key_os = "__sshd_config_"+item.name %}
-{% set inv_value = hostvars[inventory_hostname][inv_key]|default(hostvars[inventory_hostname][inv_key_os])|default(item.default) %}
+{% set inv_value = vars[inv_key]|default(vars[inv_key_os])|default(item.default) %}
 {% if item.type == 'l' %}
 {{ print_list(item.name, inv_value,0, True) }}
 {% elif item.type == 's' %}
