@@ -7,5 +7,5 @@ __sshd_service: sshd
 __sshd_file_config: /etc/ssh/sshd_config
 __sshd_binary: /usr/sbin/sshd
 
+__sshd_config_DebianBanner: null
 __sshd_config_Subsystem: "sftp /usr/lib64/ssh/sftp-server"
-__sshd_config_UsePrivilegeSeparation: "sandbox"

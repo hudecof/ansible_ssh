@@ -7,6 +7,33 @@ sshd_service_state: started
 sshd_backup: True
 sshd_test: False
 
+sshd_config_order:
+  - AddressFamily
+  - Port
+  - ListenAddress
+
+sshd_config:
+  AddressFamily: 'any'
+  Port: 22
+  ListenAddress: ['0.0.0.0', '::0']
+  AcceptEnv: ['LANG', 'LC_*']
+  AllowAgentForwarding: 'no'
+  AllowTcpForwarding: 'no'
+  AuthorizedKeysFile: '.ssh/authorized_keys'
+  DebianBanner: "{{ __sshd_config_DebianBanner }}"
+  ChallengeResponseAuthentication: 'no'
+  GSSAPIAuthentication: 'no'
+  KerberosAuthentication: 'no'
+  PasswordAuthentication: 'yes'
+  PermitEmptyPasswords: 'no'
+  PermitUserEnvironment: 'no'
+  PubkeyAuthentication: 'yes'
+  StrictModes: 'yes'
+  Subsystem: "{{ __sshd_config_Subsystem }}"
+  UseDNS: 'no'
+  UsePAM: 'yes'
+  X11Forwarding: 'no'
+
 sshd_config_match: []
 
 # os based configuration

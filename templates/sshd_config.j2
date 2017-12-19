@@ -1,43 +1,30 @@
 {{ ansible_managed | comment }}
 
-{% macro print_list(item_name, item_values=None, ident=0, comment=False) -%}
-{% if item_values is not none -%}
-{% for value in item_values|default([], true) -%}
-{{"\t" * ident}}{{ item_name }} {{ value }}
+{% macro config_value(name, value=None, ident=0) -%}
+{% if value | islist %}
+{% for v in value|default([], true) %}
+{{"\t" * ident}}{{ name }} {{ v }}
 {% endfor %}
-{%- elif comment %}
-{{"\t" * ident}}# {{ item_name }}
-{%- endif %}
-{%- endmacro %}
-
-{% macro print_scalar(item_name, item_value=None, ident=0, comment=False) -%}
-{% if item_value is not none %}
-{{"\t" * ident}}{{ item_name }} {{ item_value }}
-{%- elif comment %}
-{{"\t" * ident}}# {{ item_name }}
-{%- endif %}
-{%- endmacro %}
-
-{% for item in sshd_config_directives %}
-{% set inv_key = "sshd_config_"+item.name %}
-{% set inv_key_os = "__sshd_config_"+item.name %}
-{% set inv_value = vars[inv_key]|default(vars[inv_key_os])|default(item.default) %}
-{% if item.type == 'l' %}
-{{ print_list(item.name, inv_value,0, True) }}
-{% elif item.type == 's' %}
-{{ print_scalar(item.name, inv_value,0, True) }}
+{% elif value|isnone %}
+#{{"\t" * ident}}{{ name }} {{ value }}
+{% else %}
+{{"\t" * ident}}{{ name }} {{ value }}
 {% endif %}
-{% endfor %}
+{%- endmacro %}
+
+{% for item in sshd_config_order %}
+{{ config_value(item, sshd_config[item]|default(None)) }}
+{% endfor -%}
+
+{% for k, v in sshd_config | dictsort(true) %}
+{% if k not in sshd_config_order %}
+{{ config_value(k, v) }}
+{% endif %}
+{% endfor -%}
 
 {% for item in sshd_config_match %}
 Match {% for k,v in item.match.iteritems() %}{{ k }} {{ v|join(',') }} {% endfor %}
-
-{% for mk in sshd_config_match_directives %}
-{% set mk_value = item.value[mk.name]|default(none) %}
-{% if mk_value is not none and mk.type == 'l' %}
-{{ print_list(mk.name, mk_value, 1, True) }}
-{% elif mi_value is not none and mk.type == 's' %}
-{{ print_scalar(mk.name, mk_value,1, True) }}
-{% endif %}
+{% for k, v in item.value | dictsort(true) %}
+{{ config_value(k, v|default(None), 1) }}
 {% endfor %}
 {% endfor %}
