@@ -2,5 +2,6 @@
 - name: Converge
   hosts: all
   roles:
+    - role: hudecof.filter-plugins
     - role: ansible_ssh
       sshd_test: True
