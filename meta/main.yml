@@ -24,4 +24,4 @@ galaxy_info:
   - system
 
 dependencies:
-  - hudecof.filter_plugins
+  - hudecof.filter-plugins
