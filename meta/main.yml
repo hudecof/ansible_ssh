@@ -23,4 +23,5 @@ galaxy_info:
   categories:
   - system
 
-dependencies: []
+dependencies:
+  - hudecof.filter_plugins
