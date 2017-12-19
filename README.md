@@ -11,17 +11,17 @@ This roles is for installing and configuring sshd.
 ### SSH configuration directives
 #### Global config
 
-in the variable `sshd_config_directives` defined in `vars/main.yml` are defined all supported `sshd_config` variables with reasonable defautls. For each variable there is **name**, **type** and **default value**. 
+in the variable `sshd_config` defined in `defaults/main.yml` are defined basic values as key/value. You have to define yous values.  TI use this approach to be more flexible in **group_vars/all**
 
-To override the the default value set varibale `sshd_config_<name>`.
+```
+sshd_config_base:
+  - Port 22
 
-If the type is
+ssh_config_host: {}
+ssh_config: "{{ sshd_config_base|combine(ssh_config_host) }}"
+```
 
-- **s** / **scalar**: use value enclosed in double quote, since values like **yes** and **no** have special meaning.
-- **l** / **list**: use YAML list syntax, like `['val1', 'val2']`
-
-There are some OS specific variables, which are defined in variables `__sshd_config_<name>` in `vars/os-<distribution>` but still could be overwriten.
-
+There are some OS specific variables, which are defined in variables `__sshd_config_<name>` in `vars/os-<distribution>`.
 #### Match directive
 
 Match directives are defined as a list in variable `sshd_config_match`
