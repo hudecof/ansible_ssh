@@ -36,8 +36,18 @@ sshd_config:
 
 sshd_config_match: []
 
+sshd_host_keys: []
+
 # os based configuration
 sshd_packages: "{{ __sshd_packages }}"
 sshd_service: "{{ __sshd_service }}"
 sshd_file_config: "{{ __sshd_file_config }}"
+sshd_dir_config: "{{ __ssh_dir_config }}"
 sshd_binary: "{{ __sshd_binary }}"
+
+sshd_host_keys_dir: "{{ __ssh_dir_config }}"
+sshd_host_keys_prefix: "{{ __sshd_host_keys_prefix }}"
+sshd_host_keys_suffix: "{{ __sshd_host_keys_suffix }}"
+sshd_host_keys_list: "{{ __sshd_host_keys_list }}"
+sshd_host_keys_perm: "{{ __sshd_host_keys_perm }}"
+sshd_host_keys_group: "{{ __sshd_host_keys_group }}"
