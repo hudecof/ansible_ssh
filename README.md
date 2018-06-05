@@ -22,6 +22,7 @@ ssh_config: "{{ sshd_config_base|combine(ssh_config_host) }}"
 ```
 
 There are some OS specific variables, which are defined in variables `__sshd_config_<name>` in `vars/os-<distribution>`.
+
 #### Match directive
 
 Match directives are defined as a list in variable `sshd_config_match`
@@ -39,10 +40,24 @@ For valid keys for **match** see the man page (should be **User**, **Group**, **
 
 For valid keys for **value** see the `sshd_config_match_directives` variable defined in `vars/main.yml`. For each variable there is **name** and **type**.
 
+#### HostKey
+Will generate hosts kayes gived type and create **HostKey** attrbutes in the configuration files. If the host keys files exists, we do not touc them. If you do not change any configuration value, the OS defaults are used.
+
+- `sshd_host_keys_dir`: define directory where the ssh host keys should be placed, default is  based on distribution type.
+- `sshd_host_keys_prefix`: define prefix for each algorithm, default is based on distribution type
+- `sshd_host_keys_suffix`: define prefix for each algorithm, default is based on distribution type
+- `sshd_host_keys_perm`: define host key permission to set, default is based on distribution type
+- `sshd_host_keys_group`: define host key group to set, default is based on distribution type
+- `sshd_host_keys_list`: is list of the keys to generate, default is based on distribution, the list contains keys
+  - **type**: defined alg. type, like dsa, rsa, ecdsa, ed25519
+  - **agrs** additional args to set, like bits
+
+
 Dependencies
 ------------
 
-None
+- roles:
+  - hudecof.filters
 
 License
 -------
