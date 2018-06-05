@@ -6,16 +6,24 @@
   with_first_found:
     - "os-{{ ansible_os_family }}.yml"
   tags:
-    - sshd
-    - sshd:setup
-    - sshd:config
-    - sshd:service
+    - always
 
 - name: "include setup tasks"
   include: setup-{{ ansible_os_family }}.yml
   tags:
     - sshd
     - sshd:setup
+
+- name: "include ssh host key tasks"
+  include: config-host_key.yml
+  vars:
+    host_key: "{{ sshd_host_key }}"
+  with_items: "{{ sshd_host_keys_list }}"
+  loop_control:
+    loop_var: sshd_host_key
+  tags:
+    - sshd
+    - sshd:config
 
 - name: "include config tasks"
   include: config.yml

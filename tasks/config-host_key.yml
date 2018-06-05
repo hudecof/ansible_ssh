@@ -15,12 +15,14 @@
     - sshd
     - sshd:config
 
-- name: generate host key
+- name: generate host key block
   block:
-    - shell: ssh-keygen -q -N "" -t {{ host_key.type}} -f {{ host_key_name }} {{ host_key.args | default("") }}
+    - name: generate host keys
+      command: ssh-keygen -q -N "" -t {{ host_key.type}} -f {{ host_key_name }} {{ host_key.args | default("") }}
       args:
         creates: "{{ host_key_name }}"
-    - file:
+    - name: set host key permisson
+      file:
         path: "{{ host_key_name }}"
         owner: root
         group: "{{ sshd_host_keys_group }}"
@@ -38,7 +40,7 @@
     - sshd
     - sshd:config
 
-- name:  update sshd_config with HostKey
+- name: update sshd_config with HostKey
   set_fact:
     sshd_config: "{{ sshd_config | combine(host_key_list, recursive=True) }}"
   tags:
