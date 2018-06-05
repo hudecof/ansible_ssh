@@ -10,3 +10,15 @@ __sshd_binary: /usr/sbin/sshd
 
 __sshd_config_DebianBanner: null
 __sshd_config_Subsystem: "sftp /usr/lib64/ssh/sftp-server"
+
+
+__sshd_host_keys_prefix: "ssh_host_"
+__sshd_host_keys_suffix: "_key"
+__sshd_host_keys_list:
+  - type: 'rsa'
+    args: '-b 4096'
+  - type: 'ecdsa'
+    args: '-b 521'
+  - type: 'ed25519'
+__sshd_host_keys_perm: "0600"
+__sshd_host_keys_group: "root"
