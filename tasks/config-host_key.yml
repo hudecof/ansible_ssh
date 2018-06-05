@@ -25,7 +25,7 @@
       file:
         path: "{{ host_key_name }}"
         owner: root
-        group: "{{ sshd_host_keys_group }}"
+        group: "{{ sshd_host_keys_group|default('root') }}"
         mode: "{{ sshd_host_keys_perm }}"
         state: file
   when: host_key_name_stat.stat.exists == False

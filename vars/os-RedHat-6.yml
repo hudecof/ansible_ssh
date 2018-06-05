@@ -2,15 +2,14 @@
 __sshd_packages:
   - {'name':'openssh-server', 'state':'present'}
 
-__sshd_service: ssh
+__sshd_service: sshd
 
 __sshd_file_config: /etc/ssh/sshd_config
 __ssh_dir_config: /etc/ssh
 __sshd_binary: /usr/sbin/sshd
 
-
-__sshd_config_DebianBanner: 'no'
-__sshd_config_Subsystem: "sftp /usr/lib/openssh/sftp-server"
+__sshd_config_DebianBanner: null
+__sshd_config_Subsystem: "sftp /usr/libexec/openssh/sftp-server"
 
 __sshd_host_keys_prefix: "ssh_host_"
 __sshd_host_keys_suffix: "_key"
@@ -19,6 +18,5 @@ __sshd_host_keys_list:
     args: '-b 4096'
   - type: 'ecdsa'
     args: '-b 512'
-  - type: 'ed25519'
-__sshd_host_keys_perm: "0600"
+__sshd_host_keys_perm: "0640"
 __sshd_host_keys_group: "root"
