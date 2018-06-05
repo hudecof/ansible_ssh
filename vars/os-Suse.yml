@@ -5,6 +5,7 @@ __sshd_packages:
 __sshd_service: sshd
 
 __sshd_file_config: /etc/ssh/sshd_config
+__ssh_dir_config: /etc/ssh
 __sshd_binary: /usr/sbin/sshd
 
 __sshd_config_DebianBanner: null
