@@ -17,6 +17,6 @@ __sshd_host_keys_list:
   - type: 'rsa'
     args: '-b 4096'
   - type: 'ecdsa'
-    args: '-b 512'
+    args: '-b 521'
 __sshd_host_keys_perm: "0640"
 __sshd_host_keys_group: "root"
