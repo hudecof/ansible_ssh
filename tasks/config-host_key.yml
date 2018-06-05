@@ -1,0 +1,46 @@
+---
+
+- name: generate ssh key file name
+  set_fact:
+    host_key_name: "{{ sshd_host_keys_dir }}/{{ sshd_host_keys_prefix }}{{ host_key.type }}{{ sshd_host_keys_suffix }}"
+  tags:
+    - sshd
+    - sshd:config
+
+- name: check file existance
+  stat:
+    path: "{{ host_key_name }}"
+  register: host_key_name_stat
+  tags:
+    - sshd
+    - sshd:config
+
+- name: generate host key
+  block:
+    - shell: ssh-keygen -q -N "" -t {{ host_key.type}} -f {{ host_key_name }} {{ host_key.args | default("") }}
+      args:
+        creates: "{{ host_key_name }}"
+    - file:
+        path: "{{ host_key_name }}"
+        owner: root
+        group: "{{ sshd_host_keys_group }}"
+        mode: "{{ sshd_host_keys_perm }}"
+        state: file
+  when: host_key_name_stat.stat.exists == False
+  tags:
+    - sshd
+    - sshd:config
+
+- name: set new host key list
+  set_fact:
+    host_key_list: "{ 'HostKey': {{ sshd_config.HostKey | default([]) + [host_key_name] }} }"
+  tags:
+    - sshd
+    - sshd:config
+
+- name:  update sshd_config with HostKey
+  set_fact:
+    sshd_config: "{{ sshd_config | combine(host_key_list, recursive=True) }}"
+  tags:
+    - sshd
+    - sshd:config
