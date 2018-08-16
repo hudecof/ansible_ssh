@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: ssh
   author: Peter Hudec
   description: installs and configure sshd
   company: Peter Hudec
@@ -24,4 +25,4 @@ galaxy_info:
   - system
 
 dependencies:
-  - hudecof.filter-plugins
+  - hudecof.filter_plugins
