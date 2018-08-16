@@ -21,8 +21,9 @@ galaxy_info:
     versions:
     - all
 
-  categories:
+  galaxy_tags:
   - system
+  - ssh
 
 dependencies:
   - hudecof.filter_plugins
