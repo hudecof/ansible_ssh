@@ -23,7 +23,8 @@
 {% endfor -%}
 
 {% for item in sshd_config_match %}
-Match {% for k,v in item.match.iteritems() %}{{ k }} {{ v|join(',') }} {% endfor %}
+Match {% for k,v in item.match.items() %}{{ k }} {{ v|join(',') }} {% endfor %}
+
 {% for k, v in item.value | dictsort(true) %}
 {{ config_value(k, v|default(None), 1) }}
 {% endfor %}
