@@ -1,29 +1,26 @@
----
 galaxy_info:
   role_name: ssh
+  namespace: hudecof
   author: Peter Hudec
   description: installs and configure sshd
-  company: Peter Hudec
+  company: 5ok s.r.o.
   license: BSD
   min_ansible_version: 2
-
   platforms:
-  - name: EL
-    versions:
-    - all
-  - name: Fedora
-    versions:
-    - all
-  - name: Ubuntu
-    versions:
-    - all
-  - name: Debian
-    versions:
-    - all
-
+    - name: EL
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
   galaxy_tags:
-  - system
-  - ssh
-
+    - system
+    - ssh
 dependencies:
-  - hudecof.filter_plugins
+  - role: hudecof.filter_plugins
