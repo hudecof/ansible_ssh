@@ -8,8 +8,8 @@ __sshd_file_config: /etc/ssh/sshd_config
 __ssh_dir_config: /etc/ssh
 __sshd_binary: /usr/sbin/sshd
 
-__sshd_config_DebianBanner: null
-__sshd_config_Subsystem: "sftp /usr/lib64/ssh/sftp-server"
+__sshd_config_DebianBanner: null                            # noqa var-naming
+__sshd_config_Subsystem: "sftp /usr/lib64/ssh/sftp-server"  # noqa var-naming
 
 
 __sshd_host_keys_prefix: "ssh_host_"
