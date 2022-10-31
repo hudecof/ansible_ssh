@@ -1,6 +1,6 @@
 ---
-- name: "check packages (suse)"
-  zypper:
+- name: "Suse | check packages"
+  community.general.packaging.os.zypper:
     pkg: "{{ package.name }}"
     state: "{{ package.state }}"
   with_items: "{{ sshd_packages }}"

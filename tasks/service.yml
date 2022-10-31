@@ -1,6 +1,6 @@
 ---
-- name: ensure ssh started/stopped
-  service:
+- name: "Common | ensure ssh started/stopped"
+  ansible.builtin.service:
     name: "{{ sshd_service }}"
     state: "{{ sshd_service_state }}"
     enabled: "{{ sshd_service_enabled }}"

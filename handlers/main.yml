@@ -1,7 +1,7 @@
 ---
 # handlers file for sshd
-- name: restart sshd
-  service:
+- name: "restart sshd"      # noqa name[casing]
+  ansible.builtin.service:
     name: "{{ sshd_service }}"
     state: restarted
   when: not sshd_test

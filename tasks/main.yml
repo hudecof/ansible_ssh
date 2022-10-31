@@ -1,23 +1,24 @@
 ---
 # tasks file for ssh
 
-- name: "common | set os specific variables"
-  include_vars: "{{ item }}"
+- name: "Common | set os specific variables"
+  ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
+    - "os-{{ ansible_distribution }}.yml"
     - "os-{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
     - "os-{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
     - "os-{{ ansible_os_family }}.yml"
   tags:
     - always
 
-- name: "include setup tasks"
-  include: setup-{{ ansible_os_family }}.yml
+- name: "Include setup tasks"
+  ansible.builtin.include_tasks: setup-{{ ansible_os_family }}.yml
   tags:
     - sshd
     - sshd:setup
 
-- name: "include ssh host key tasks"
-  include: config-host_key.yml
+- name: "Include ssh host key tasks"
+  ansible.builtin.include_tasks: config-host_key.yml
   vars:
     host_key: "{{ sshd_host_key }}"
   with_items: "{{ sshd_host_keys_list }}"
@@ -27,14 +28,14 @@
     - sshd
     - sshd:config
 
-- name: "include config tasks"
-  include: config.yml
+- name: "Include config tasks"
+  ansible.builtin.include_tasks: config.yml
   tags:
     - sshd
     - sshd:config
 
-- name: "include service tasks"
-  include: service.yml
+- name: "Include service tasks"
+  ansible.builtin.include_tasks: service.yml
   tags:
     - sshd
     - sshd:service

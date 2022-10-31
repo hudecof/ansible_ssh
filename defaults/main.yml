@@ -2,10 +2,10 @@
 # defaults file for sshd
 
 # playbook variables
-sshd_service_enabled: yes
+sshd_service_enabled: true
 sshd_service_state: started
-sshd_backup: True
-sshd_test: False
+sshd_backup: true
+sshd_test: false
 
 sshd_config_order:
   - AddressFamily
