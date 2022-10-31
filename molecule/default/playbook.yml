@@ -1,7 +1,0 @@
----
-- name: Converge
-  hosts: all
-  roles:
-    - role: hudecof.filter_plugins
-    - role: hudecof.ssh
-      sshd_test: True
