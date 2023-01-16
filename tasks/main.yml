@@ -12,30 +12,46 @@
     - always
 
 - name: "Include setup tasks"
-  ansible.builtin.include_tasks: setup-{{ ansible_os_family }}.yml
+  ansible.builtin.include_tasks:
+    file: setup-{{ ansible_os_family }}.yml
+    apply:
+      tags:
+        - sshd
+        - sshd:setup
   tags:
-    - sshd
-    - sshd:setup
+    - always
 
 - name: "Include ssh host key tasks"
-  ansible.builtin.include_tasks: config-host_key.yml
+  ansible.builtin.include_tasks:
+    file: config-host_key.yml
+    apply:
+      tags:
+        - sshd
+        - sshd:config
   vars:
     host_key: "{{ sshd_host_key }}"
   with_items: "{{ sshd_host_keys_list }}"
   loop_control:
     loop_var: sshd_host_key
   tags:
-    - sshd
-    - sshd:config
+    - always
 
 - name: "Include config tasks"
-  ansible.builtin.include_tasks: config.yml
+  ansible.builtin.include_tasks:
+    file: config.yml
+    apply:
+      tags:
+        - sshd
+        - sshd:config
   tags:
-    - sshd
-    - sshd:config
+    - always
 
 - name: "Include service tasks"
-  ansible.builtin.include_tasks: service.yml
+  ansible.builtin.include_tasks:
+    file: service.yml
+    apply:
+      tags:
+        - sshd
+        - sshd:service
   tags:
-    - sshd
-    - sshd:service
+    - always
