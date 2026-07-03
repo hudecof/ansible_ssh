@@ -46,6 +46,16 @@
   tags:
     - always
 
+- name: "Include sshd_config.d tasks"
+  ansible.builtin.include_tasks:
+    file: config_conf_d.yml
+    apply:
+      tags:
+        - sshd
+        - sshd:config
+  tags:
+    - always
+
 - name: "Include service tasks"
   ansible.builtin.include_tasks:
     file: service.yml

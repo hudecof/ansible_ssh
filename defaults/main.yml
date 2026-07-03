@@ -36,6 +36,11 @@ sshd_config:
 
 sshd_config_match: []
 
+sshd_config_d_dir: "{{ sshd_dir_config }}/sshd_config.d"
+sshd_config_d: {}
+sshd_config_d_absent: []
+sshd_config_d_disabled: []
+
 sshd_host_keys: []
 
 # os based configuration

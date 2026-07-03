@@ -8,6 +8,10 @@
     group: root
     mode: 0640
     validate: "{{ sshd_binary }} -t -f %s"
+  vars:
+    _sshd_directives: "{{ sshd_config }}"
+    _sshd_config_order: "{{ sshd_config_order }}"
+    _sshd_match: "{{ sshd_config_match }}"
   when: not sshd_test
   notify:
     - restart sshd
@@ -20,6 +24,10 @@
     owner: root
     group: root
     mode: 0640
+  vars:
+    _sshd_directives: "{{ sshd_config }}"
+    _sshd_config_order: "{{ sshd_config_order }}"
+    _sshd_match: "{{ sshd_config_match }}"
   when: sshd_test
   notify:
     - restart sshd

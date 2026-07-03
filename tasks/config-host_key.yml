@@ -36,7 +36,8 @@
 
 - name: "Common | set new host key list"
   ansible.builtin.set_fact:
-    host_key_list: "{ 'HostKey': {{ sshd_config.HostKey | default([]) + [host_key_name] }} }"
+    host_key_list:
+      HostKey: "{{ sshd_config.HostKey | default([]) + [host_key_name] }}"
   tags:
     - sshd
     - sshd:config

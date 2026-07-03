@@ -12,17 +12,17 @@
 {% endif %}
 {%- endmacro %}
 
-{% for item in sshd_config_order %}
-{{ config_value(item, sshd_config[item]|default(None)) }}
+{% for item in _sshd_config_order | default([]) %}
+{{ config_value(item, _sshd_directives[item]|default(None)) }}
 {% endfor -%}
 
-{% for k, v in sshd_config | dictsort(true) %}
-{% if k not in sshd_config_order %}
+{% for k, v in _sshd_directives | dictsort(true) %}
+{% if k not in _sshd_config_order | default([]) %}
 {{ config_value(k, v) }}
 {% endif %}
 {% endfor -%}
 
-{% for item in sshd_config_match %}
+{% for item in _sshd_match | default([]) %}
 Match {% for k,v in item.match.items() %}{{ k }} {{ v|join(',') }} {% endfor %}
 
 {% for k, v in item.value | dictsort(true) %}

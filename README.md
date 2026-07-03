@@ -1,70 +1,172 @@
 # SSH
 
-This roles is for installing and configuring sshd.
+Ansible role for installing and configuring sshd.
 
 ## Requirements
 
-- ansible: version 2 and higher
+- Ansible 2.9 or higher
+- Role dependency: `hudecof.filters`
 
 ## Role Variables
 
-### SSH configuration directives
-#### Global config
+### Service Variables
 
-in the variable `sshd_config` defined in `defaults/main.yml` are defined basic values as key/value. You have to define yous values.  TI use this approach to be more flexible in **group_vars/all**
+| Variable | Default | Description |
+| --- | --- | --- |
+| `sshd_packages` | OS-specific | Packages to install |
+| `sshd_service` | OS-specific | Service name |
+| `sshd_file_config` | OS-specific | Path to `sshd_config` |
+| `sshd_dir_config` | OS-specific | SSH config directory |
+| `sshd_binary` | OS-specific | Path to the `sshd` binary |
+| `sshd_backup` | `true` | Back up config files before overwriting |
+| `sshd_service_enabled` | `true` | Enable service on boot |
+| `sshd_service_state` | `started` | Desired service state |
+| `sshd_test` | `false` | Skip service restart (useful in CI/molecule) |
 
+### Main Configuration — `sshd_config`
+
+The `sshd_config` dictionary drives the generated `sshd_config` file. Values can be strings, lists, or `null`. OS-specific defaults are set via `__sshd_config_<name>` variables in `vars/os-<OS>.yml`.
+
+`sshd_config_order` controls which keys are emitted first (before the alphabetically-sorted remainder):
+
+```yaml
+sshd_config_order:
+  - AddressFamily
+  - Port
+  - ListenAddress
 ```
-sshd_config_base:
-  - Port 22
 
-ssh_config_host: {}
-ssh_config: "{{ sshd_config_base|combine(ssh_config_host) }}"
+Override example:
+
+```yaml
+sshd_config:
+  AddressFamily: any
+  Port: 22
+  ListenAddress: ['0.0.0.0', '::']
+  PasswordAuthentication: 'no'
+  PubkeyAuthentication: 'yes'
+  Subsystem: "sftp /usr/lib/openssh/sftp-server"
 ```
 
-There are some OS specific variables, which are defined in variables `__sshd_config_<name>` in `vars/os-<distribution>`.
+### Match Directives — `sshd_config_match`
 
-#### Match directive
+Match blocks are defined as a list. Each entry has a `match` dict and a `value` dict:
 
-Match directives are defined as a list in variable `sshd_config_match`
-
-```
+```yaml
 sshd_config_match:
   - match:
       User: ['upload']
     value:
       AllowAgentForwarding: 'yes'
-
+      ForceCommand: '/usr/lib/openssh/sftp-server'
 ```
 
-For valid keys for **match** see the man page (should be **User**, **Group**, **Host**, **LocalAddress**, **LocalPort**, **Address**, values are always lists.
+Valid `match` keys: `User`, `Group`, `Host`, `LocalAddress`, `LocalPort`, `Address` — values are always lists.
 
-For valid keys for **value** see the `sshd_config_match_directives` variable defined in `vars/main.yml`. For each variable there is **name** and **type**.
+### Host Keys — `sshd_host_keys_list`
 
-#### HostKey
-Will generate hosts kayes gived type and create **HostKey** attrbutes in the configuration files. If the host keys files exists, we do not touc them. If you do not change any configuration value, the OS defaults are used.
+Generates host key files and adds the corresponding `HostKey` directives. Existing key files are left untouched.
 
-- `sshd_host_keys_dir`: define directory where the ssh host keys should be placed, default is  based on distribution type.
-- `sshd_host_keys_prefix`: define prefix for each algorithm, default is based on distribution type
-- `sshd_host_keys_suffix`: define prefix for each algorithm, default is based on distribution type
-- `sshd_host_keys_perm`: define host key permission to set, default is based on distribution type
-- `sshd_host_keys_group`: define host key group to set, default is based on distribution type
-- `sshd_host_keys_list`: is list of the keys to generate, default is based on distribution, the list contains keys
-  - **type**: defined alg. type, like dsa, rsa, ecdsa, ed25519
-  - **agrs** additional args to set, like bits
+| Variable | Default | Description |
+| --- | --- | --- |
+| `sshd_host_keys_dir` | OS-specific | Directory for host key files |
+| `sshd_host_keys_prefix` | OS-specific | Filename prefix (e.g. `ssh_host_`) |
+| `sshd_host_keys_suffix` | OS-specific | Filename suffix (e.g. `_key`) |
+| `sshd_host_keys_perm` | OS-specific | File permission |
+| `sshd_host_keys_group` | OS-specific | File group |
+| `sshd_host_keys_list` | OS-specific | List of key types to generate |
 
+```yaml
+sshd_host_keys_list:
+  - type: rsa
+    args: '-b 4096'
+  - type: ecdsa
+    args: '-b 521'
+  - type: ed25519
+```
 
-Dependencies
-------------
+### Drop-in Files — `sshd_config_d`
 
-- roles:
-  - hudecof.filters
+Files can be placed in `sshd_config.d/` (included by the main config via the `Include` directive). Each entry in the dict becomes a `.conf` file; the value is a regular sshd directive dict with the same rules as `sshd_config`.
 
-License
--------
+| Variable | Default | Description |
+| --- | --- | --- |
+| `sshd_config_d_dir` | `{{ sshd_dir_config }}/sshd_config.d` | Drop-in directory |
+| `sshd_config_d` | `{}` | Dict of `filename → directives` — files to create |
+| `sshd_config_d_disabled` | `[]` | List of filenames to disable (renames `.conf` → `.conf.disabled`) |
+| `sshd_config_d_absent` | `[]` | List of filenames to remove entirely (deletes `.conf` and `.conf.disabled`) |
+
+The directory is created automatically when `sshd_config_d` is non-empty.
+
+To disable a file, add its name to `sshd_config_d_disabled` — the active `.conf` is renamed to `.conf.disabled` (content preserved, sshd ignores it). To re-enable, move the name back to `sshd_config_d` and remove it from `sshd_config_d_disabled`. To delete completely, add the name to `sshd_config_d_absent`.
+
+**Create example** — generates `/etc/ssh/sshd_config.d/hardening.conf`:
+
+```yaml
+sshd_config_d:
+  hardening:
+    MaxAuthTries: 3
+    LoginGraceTime: 30
+    AllowAgentForwarding: 'no'
+    AllowTcpForwarding: 'no'
+```
+
+Match blocks are supported via an optional `match` key inside the file entry (same structure as `sshd_config_match`):
+
+```yaml
+sshd_config_d:
+  sftp:
+    Subsystem: "sftp internal-sftp"
+    match:
+      - match:
+          User: ['upload']
+        value:
+          ChrootDirectory: /srv/upload
+          ForceCommand: internal-sftp
+          AllowTcpForwarding: 'no'
+```
+
+**Disable example** — renames `hardening.conf` to `hardening.conf.disabled`:
+
+```yaml
+sshd_config_d_disabled:
+  - hardening
+```
+
+**Remove example** — deletes `hardening.conf` and any `.disabled` marker:
+
+```yaml
+sshd_config_d_absent:
+  - hardening
+```
+
+## Example Playbook
+
+```yaml
+- hosts: all
+  vars:
+    sshd_config:
+      Port: 22
+      PasswordAuthentication: 'no'
+      PubkeyAuthentication: 'yes'
+      Subsystem: "sftp /usr/lib/openssh/sftp-server"
+    sshd_config_d:
+      hardening:
+        MaxAuthTries: 3
+        LoginGraceTime: 30
+        X11Forwarding: 'no'
+  roles:
+    - hudecof.ssh
+```
+
+## Dependencies
+
+- `hudecof.filters`
+
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
 Peter Hudec
